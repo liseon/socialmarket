@@ -17,7 +17,7 @@ abstract class Patterns_Singleton {
     }
 
     /**
-     * @return mixed
+     * @return static
      */
     public static function getInstance() {
         $class = get_called_class();
