@@ -16,8 +16,9 @@ class Controller_Index extends Controller_Abstract
         }*/
 
         $wall = Vk_Api::getInstance()->wallGet(20992, 30);
-        var_dump($wall);
+//        var_dump($wall);
         $searcher = new Content_Searcher(new Vk_PostsCollection($wall));
+        var_dump($searcher->findPosts(['сочи']));
 
     }
 }

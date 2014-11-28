@@ -8,4 +8,14 @@
 
 class Vk_PostsCollection extends Collection
 {
+    public function getPostTime() {
+
+        return $this->getProperty('created');
+    }
+
+    public function getPostText() {
+        echo ($this->getProperty('text') . "<br>");
+
+        return $this->getProperty('text');
+    }
 }
