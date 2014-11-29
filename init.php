@@ -38,3 +38,7 @@ spl_autoload_register(
         }
     }
 );
+
+if (!Core::isCli()) {
+    Session::start();
+}

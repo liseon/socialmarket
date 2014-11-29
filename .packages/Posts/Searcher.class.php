@@ -6,15 +6,15 @@
  * Time: 20:29
  */
 
-class Content_Searcher
+class Posts_Searcher
 {
     /** @var Collection  */
     private $collection;
 
     /**
-     * @param Collection $collection
+     * @param Vk_PostsCollection $collection
      */
-    public function __construct(Collection $collection) {
+    public function __construct(Vk_PostsCollection $collection) {
         $this->collection = $collection;
     }
 
@@ -28,6 +28,7 @@ class Content_Searcher
      * @param array $keys
      * @param int $period
      * @param bool $isHard
+     * @return Vk_PostsCollection $result
      *
      */
     public function findPosts(array $keys, $period = 30, $isHard = false) {
@@ -43,7 +44,6 @@ class Content_Searcher
         while ($this->collection->getNext()) {
             if ($extremeTime < $this->collection->getPostTime()) {
                 //Цикл не прерываем, т.к. мы точно не можем быть уверены в верной сортировке по дате.
-                echo "Time!!! <br><br>";
                 continue;
             }
             $found = 0;
@@ -51,26 +51,21 @@ class Content_Searcher
             foreach ($keys as $key) {
                 if (!mb_strpos($text, $key) === false) {
                     $found++;
-                } else {
-                    echo "************************************<br>Text :: {$text} <br> KEY:: {$key} <br>*******************************<br>";
                 }
             }
             //Результат не найден, если вообще нет совпадений, либо если поиск жесткий и совпадений недостаточно.
             if (!$found || ($isHard && count($found) < count($keys))) {
-                echo "Found (( {$found} <br><br>";
                 continue;
             }
 
             $result->add($this->collection->getCurrent());
         }
+
+        return $result;
     }
 
     private static function normalize($text) {
 
-//        return $text;
-
-        return strtolower($text);
-
-        return str_replace([' ', ',', '.', '!', '?', '&', '_', '~'], '', mb_strtolower($text));
+        return str_replace([' ', ',', '.', '!', '?', '&', '_', '~'], '', mb_strtolower($text, 'UTF-8'));
     }
 }

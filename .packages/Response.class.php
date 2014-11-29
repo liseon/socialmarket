@@ -41,6 +41,7 @@ class Response extends Patterns_Singleton
     }
 
     public function output() {
+
         die($this->serialize());
     }
 }

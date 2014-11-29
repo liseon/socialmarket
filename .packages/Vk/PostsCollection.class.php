@@ -6,7 +6,7 @@
  * Time: 21:02
  */
 
-class Vk_PostsCollection extends Collection
+class Vk_PostsCollection extends Collection implements Posts_CollectionInterface
 {
     public function getPostTime() {
 
@@ -14,7 +14,6 @@ class Vk_PostsCollection extends Collection
     }
 
     public function getPostText() {
-        echo ($this->getProperty('text') . "<br>");
 
         return $this->getProperty('text');
     }

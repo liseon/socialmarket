@@ -15,16 +15,25 @@ abstract class Collection
     private $i;
 
     /**
-     * @param array $rows
+     * @param array|false $rows
      */
     public function __construct($rows = []) {
-        $this->rows = $rows;
+        if (is_array($rows)) {
+            $this->rows = $rows;
+        }
     }
 
     public function add($row) {
         if (is_array($row)) {
             $this->rows[] = $row;
         }
+    }
+
+    /**
+     * @param Collection $collection
+     */
+    public function joinCollection(Collection $collection) {
+        $this->rows = array_merge($this->rows, $collection->getRows());
     }
 
     public function getRows() {
@@ -74,9 +83,4 @@ abstract class Collection
         return isset($this->getCurrent()[$name]) ? $this->getCurrent()[$name] : false;
     }
 
-
-
-    abstract function getPostTime();
-
-    abstract function getPostText();
 }

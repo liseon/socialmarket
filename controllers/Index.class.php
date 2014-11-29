@@ -9,16 +9,29 @@
 class Controller_Index extends Controller_Abstract
 {
     public function actionDefault() {
-        //$friends = Vk_Api::getInstance()->friendsGet(20992);
-        /*foreach ($friends as $friend) {
-            echo $friend;
-            break;
-        }*/
+      //  return $this->formAuth();
 
-        $wall = Vk_Api::getInstance()->wallGet(20992, 30);
-//        var_dump($wall);
-        $searcher = new Content_Searcher(new Vk_PostsCollection($wall));
-        var_dump($searcher->findPosts(['сочи']));
+        $keys = ['продам', 'продаю', 'пробег'];
+        $friends = Vk_Api::getInstance()->friendsGet(20992);
+        $result = new Vk_PostsCollection();
+        while ($friends->getNext()) {
+            $searcher = new Posts_Searcher(Vk_Api::getInstance()->wallGet($friends->getId(), 30));
+            $result->joinCollection($searcher->findPosts($keys, 30, false));
+        }
 
+        while ($result->getNext()) {
+            echo $result->getPostText() . "\r\n";
+        }
+
+    }
+
+    public function actionCallback() {
+        echo "Успех!!";
+    }
+
+    private function formAuth() {
+        Redirect::go(Vk_Api::getAuthUrl());
+
+        return true;
     }
 }

@@ -12,8 +12,13 @@ class App extends Patterns_Singleton
 
     const ACTION_DEFAULT = 'default';
 
-    public static function run($controller) {
-        $actionName = self::PREF_ACTION . ucfirst(self::ACTION_DEFAULT);
-        $controller->$actionName();
+    public static function run(Controller_Abstract $controller) {
+        $actionDef = self::PREF_ACTION . ucfirst(self::ACTION_DEFAULT);
+        $actionRun = self::PREF_ACTION . ucfirst($controller->getActionName());
+        if (method_exists($controller, $actionRun)) {
+            $controller->$actionRun();
+        } else {
+            $controller->$actionDef();
+        }
     }
 }
