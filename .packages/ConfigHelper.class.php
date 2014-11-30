@@ -6,7 +6,7 @@
  * Time: 2:18
  */
 
-class Config
+class ConfigHelper
 {
     public static function get($configName, $value = null){
         $type = Core::isDev() ? 'devel' : 'production';

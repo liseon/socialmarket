@@ -40,6 +40,10 @@ abstract class Collection
         return $this->rows;
     }
 
+    public function count() {
+        return count($this->rows);
+    }
+
     public function getNext() {
         if (isset($this->rows[$this->i + 1])) {
             $this->i++;

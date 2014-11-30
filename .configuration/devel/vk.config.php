@@ -8,5 +8,5 @@
 
 return [
     'app_id' => 4655345,
-    'token' => '8mpDU7k7wUeIm9l2GeDP',
+    'secret' => '8mpDU7k7wUeIm9l2GeDP',
 ];
