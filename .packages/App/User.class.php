@@ -6,7 +6,7 @@
  * Time: 15:53
  */
 
-class User
+class User extends Patterns_Singleton
 {
 
 }
