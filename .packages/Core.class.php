@@ -17,12 +17,4 @@ class Core
         return true;
     }
 
-    /**
-     * @return float
-     */
-    public static function getMicroTime() {
-        list($usec, $sec) = explode(" ", microtime());
-
-        return $sec + $usec;
-    }
 }

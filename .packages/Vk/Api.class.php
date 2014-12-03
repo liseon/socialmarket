@@ -24,7 +24,7 @@ class Vk_Api extends Patterns_Singleton
 
     const URL_ACCESS_TOKEN = "https://oauth.vk.com/access_token?client_id=%d&client_secret=%s&code=%s&redirect_uri=%s";
 
-    const PERMISSIONS = 8194;
+    const PERMISSIONS = 4194304;
 
     const PARAM_CODE = 'code';
 
@@ -136,7 +136,7 @@ class Vk_Api extends Patterns_Singleton
      * @return bool
      */
     private function waitLock() {
-        $time = Core::getMicroTime();
+        $time = microtime(true);
         if(!$this->lock) {
             $this->timeForRequest = 1 / self::REQUESTS_LIMIT;
         } elseif ($time <= $this->lock + $this->timeForRequest) {
@@ -144,7 +144,7 @@ class Vk_Api extends Patterns_Singleton
             usleep($sleepTime);
         }
 
-        $this->lock = Core::getMicroTime();
+        $this->lock = microtime(true);
 
         return true;
     }
