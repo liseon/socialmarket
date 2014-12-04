@@ -21,4 +21,9 @@ class App extends Patterns_Singleton
             $controller->$actionDef();
         }
     }
+
+    public static function runCli() {
+        print_r('Run cli');
+        print_r(Re);
+    }
 }

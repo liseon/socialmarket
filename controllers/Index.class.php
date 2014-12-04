@@ -34,7 +34,7 @@ class Controller_Index extends Controller_Abstract
     }
 
     public function actionCallback() {
-        $result = Vk_Api::getInstance()->getNewAccessToken(Request::getGet(Vk_Api::PARAM_CODE));
+        $result = Vk_Api::getInstance()->getNewAccessToken(Front_Request::getGet(Vk_Api::PARAM_CODE));
         print_r($result);
     }
 

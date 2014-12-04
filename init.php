@@ -6,6 +6,8 @@
  * Time: 0:13
  */
 
+echo 'INCLUDE';
+
 function includeFile($file) {
     if (file_exists($file)) {
         include_once $file;

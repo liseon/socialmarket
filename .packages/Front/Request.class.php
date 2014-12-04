@@ -6,7 +6,7 @@
  * Time: 13:46
  */
 
-class Request
+class Front_Request
 {
     private static $methods = [
         'post',
