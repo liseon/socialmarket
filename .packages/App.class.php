@@ -24,6 +24,6 @@ class App extends Patterns_Singleton
 
     public static function runCli() {
         print_r('Run cli');
-        print_r(Re);
+        print_r($_SERVER['argv']);
     }
 }
