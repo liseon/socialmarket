@@ -26,6 +26,8 @@ class Vk_Api extends Patterns_Singleton
 
     const PERMISSIONS = 4194304;
 
+//    const PERMISSIONS = 2; //Друзья
+
     const PARAM_CODE = 'code';
 
     const REQUESTS_LIMIT = 3;

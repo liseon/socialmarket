@@ -9,7 +9,7 @@
 class Controller_Index extends Controller_Abstract
 {
     public function actionDefault() {
-//        return $this->formAuth();
+        return $this->formAuth();
 
         $keys = ['продам', 'продаю', 'пробег'];
         Vk_Api::getInstance()->setToken('9f7fd127b0271edb73d0c5fda3499579cd6a013003384af3144e12bac762d10931cc2cefd6167456d534f');

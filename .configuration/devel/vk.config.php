@@ -7,6 +7,6 @@
  */
 
 return [
-    'app_id' => 4655345,
-    'secret' => '8mpDU7k7wUeIm9l2GeDP',
+    'app_id' => 4675988,
+    'secret' => 'Qei3IimBasgpx9WZ7HaA',
 ];

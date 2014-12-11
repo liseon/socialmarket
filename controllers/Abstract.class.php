@@ -2,18 +2,34 @@
 
 abstract class Controller_Abstract
 {
-    private $action = null;
+    private $action = false;
 
-    public function __construct($action = null) {
+    const PREF_ACTION = 'action';
+
+    final public function __construct($action = false) {
         $this->action = $action;
     }
 
-    public function getActionName() {
+    /**
+     * @param Request $request
+     */
+    final public function run($request) {
+        $this->preAction($request);
+        if ($this->action) {
+            $action = self::PREF_ACTION . ucfirst($this->action);
+            $this->$action($request);
+        }
+
+        $this->actionDefault($request);
+    }
+
+    final public function getActionName() {
         return $this->action;
     }
 
     public function preAction() {
     }
 
-    abstract public function actionDefault();
+    public function actionDefault(Request $request){
+    }
 }

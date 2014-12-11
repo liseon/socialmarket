@@ -6,7 +6,7 @@
  * Time: 13:46
  */
 
-class Front_Request
+class Front_Request extends Patterns_Singleton
 {
     private static $methods = [
         'post',

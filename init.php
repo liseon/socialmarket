@@ -33,6 +33,9 @@ spl_autoload_register(
             case 'Controller':
                 $path = __DIR__ . "/controllers/" . implode("/", $expl) . ".class.php";
                 break;
+            case 'Cli':
+                $path = __DIR__ . "/.scripts/" . implode("/", $expl) . ".class.php";
+                break;
         }
 
         if (!includeFile($path)) {

@@ -6,7 +6,7 @@
  * Time: 21:24
  */
 
-class Cli_Request extends Patterns_Singleton
+class Cli_Request extends Request
 {
     private $args = [];
 
@@ -18,7 +18,7 @@ class Cli_Request extends Patterns_Singleton
 
     public function __construct() {
         $this->className = $_SERVER['argv'][1];
-        $this->methodName = $_SERVER['argv'][2];
+        $this->methodName = isset($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : false;
         for ($i = 3; $i < count($_SERVER['argv']); $i++) {
             if (strpos($_SERVER['argv'][$i], self::ARGUMENT_PREF) !== false) {
                 $this->args[str_replace(self::ARGUMENT_PREF, '', $_SERVER['argv'][$i])] =
