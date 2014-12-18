@@ -10,7 +10,7 @@ abstract class Patterns_Singleton {
 
     private static $instances;
 
-    private final function __construct(){
+    private function __construct(){
     }
 
     private final function __clone() {

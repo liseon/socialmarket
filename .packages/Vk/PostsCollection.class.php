@@ -15,6 +15,6 @@ class Vk_PostsCollection extends Collection implements Posts_CollectionInterface
 
     public function getPostText() {
 
-        return $this->getProperty('text');
+        return $this->getProperty('text') . $this->getProperty('copy_text');
     }
 }

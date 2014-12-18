@@ -12,7 +12,7 @@ class Controller_Index extends Controller_Abstract
         return $this->formAuth();
 
         $keys = ['продам', 'продаю', 'пробег'];
-        Vk_Api::getInstance()->setToken('9f7fd127b0271edb73d0c5fda3499579cd6a013003384af3144e12bac762d10931cc2cefd6167456d534f');
+        Vk_Api::getInstance()->setToken('58a8078f96e9408da84c5add7dea0c3c3d0210ef2ebdba7be82ed8c6900565da2ad90a8a761e47b29d971');
         $friends = Vk_Api::getInstance()->friendsGet(4916443);
         $result = new Vk_PostsCollection();
         $count = $friends->count();

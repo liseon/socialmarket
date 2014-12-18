@@ -125,6 +125,8 @@ class Vk_Api extends Patterns_Singleton
                 $repeat = true;
                 $sec = time() - $this->startTime;
                 echo "<br>Error in {$sec}  seconds! <br> {$result} <br>";
+
+                return false;
                 usleep(self::ERROR_WAIT_MS);
             }
         } while ($repeat);

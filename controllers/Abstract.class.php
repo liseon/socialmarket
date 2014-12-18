@@ -17,7 +17,7 @@ abstract class Controller_Abstract
         $this->preAction($request);
         if ($this->action) {
             $action = self::PREF_ACTION . ucfirst($this->action);
-            $this->$action($request);
+            return $this->$action($request);
         }
 
         $this->actionDefault($request);
