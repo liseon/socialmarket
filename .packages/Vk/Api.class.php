@@ -18,6 +18,10 @@ class Vk_Api extends Patterns_Singleton
 
     private $timeForRequest = 0;
 
+    private $counter = 0;
+
+    private $needNull = false;
+
     const URL_API = "https://api.vk.com/method/";
 
     const URL_OAUTH = "https://oauth.vk.com/authorize?client_id=%d&scope=%s&redirect_uri=%s&response_type=code&v=5.27";
@@ -119,14 +123,18 @@ class Vk_Api extends Patterns_Singleton
         $url = self::URL_API . $method . "?" . http_build_query($params);
         $repeat = false;
         do {
+            if ($this->needNull) {
+                $this->counter = 1;
+            } else {
+                $this->counter++;
+            }
             $result = $this->requestHttp($url);
             $json = json_decode($result, true);
             if (isset($json['error']['error_code']) && $json['error']['error_code'] == 6) {
                 $repeat = true;
                 $sec = time() - $this->startTime;
-                echo "<br>Error in {$sec}  seconds! <br> {$result} <br>";
+                echo "<br>Error in {$sec}  seconds! Count: {$this->counter} \n {$result} \n";
 
-                return false;
                 usleep(self::ERROR_WAIT_MS);
             }
         } while ($repeat);
