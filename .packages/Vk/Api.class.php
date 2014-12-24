@@ -39,6 +39,8 @@ class Vk_Api extends Patterns_Singleton
     /** сколько ждать при ошибки по лимиту запросов */
     const ERROR_WAIT_MS = 1000000;
 
+    const ERROR_WAIT_PROGRESS_KOEF = 2;
+
 
     /**
      * @param string $token
@@ -122,6 +124,7 @@ class Vk_Api extends Patterns_Singleton
     private function requestApi($method, $params){
         $url = self::URL_API . $method . "?" . http_build_query($params);
         $repeat = false;
+        $koef = 1;
         do {
             if ($this->needNull) {
                 $this->counter = 1;
@@ -135,7 +138,9 @@ class Vk_Api extends Patterns_Singleton
                 $sec = time() - $this->startTime;
                 echo "<br>Error in {$sec}  seconds! Count: {$this->counter} \n {$result} \n";
 
-                usleep(self::ERROR_WAIT_MS);
+                usleep(self::ERROR_WAIT_MS * $koef);
+                //Время должно расти прогрессивно
+                $koef *= self::ERROR_WAIT_PROGRESS_KOEF;
             }
         } while ($repeat);
 

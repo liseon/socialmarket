@@ -11,7 +11,7 @@ class Cli_Controller_Vk_Find extends Cli_Controller_Abstract
     public function actionDefault(Cli_Request $request) {
         echo "Heyy \n";
         $keys = ['продам', 'продаю', 'пробег'];
-        Vk_Api::getInstance()->setToken('01fb1b10b3e28928b8ae48d781290f2b09ebdc50dc0f41a25cda0dc64e731b278e59a198ed4597fdb2601');
+        Vk_Api::getInstance()->setToken('1430815ccc5e446ea11a7f48ab1c04af06335907fda48a5372751847aecaceeee3c4f2401ef7fbcdf503e');
         $friends = Vk_Api::getInstance()->friendsGet(20992);
         $count = $friends->count();
         $i = 0;
