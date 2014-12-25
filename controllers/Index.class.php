@@ -6,9 +6,11 @@
  * Time: 0:55
  */
 
-class Controller_Index extends Controller_Abstract
+class Controller_Index extends Front_Controller
 {
     public function actionDefault() {
+        return $this->formModels();
+
         return $this->formAuth();
 
         $keys = ['продам', 'продаю', 'пробег'];
@@ -42,5 +44,13 @@ class Controller_Index extends Controller_Abstract
         Redirect::go(Vk_Api::getAuthUrl());
 
         return true;
+    }
+
+    private function formModels() {
+        $models = ConfigHelper::getInfo('carModels');
+        foreach ($models as $model) {
+            echo "'" . $model['title'] . "', <br>";
+        }
+
     }
 }

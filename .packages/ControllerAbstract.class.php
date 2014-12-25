@@ -1,6 +1,6 @@
 <?php
 
-abstract class Controller_Abstract
+abstract class ControllerAbstract
 {
     private $action = false;
 
@@ -30,6 +30,4 @@ abstract class Controller_Abstract
     public function preAction() {
     }
 
-    public function actionDefault(Request $request){
-    }
 }

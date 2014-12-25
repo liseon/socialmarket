@@ -8,21 +8,21 @@
 
 class App extends Patterns_Singleton
 {
-    public static function run(Controller_Abstract $controller) {
+    public static function run(Front_Controller $controller) {
         $controller->run(Front_Request::getInstance());
     }
 
     public static function runCli() {
         $className = Cli_Request::getInstance()->getClassName();
         if (!(($controller = new $className(Cli_Request::getInstance()->getMethodName())) instanceof
-            Cli_Controller_Abstract)
+            Cli_Controller)
         ) {
             trigger_error("Error! {$className} should be instance of Cli_Controller_Abstract!");
 
             return false;
         }
 
-        /** @var $controller Cli_Controller_Abstract */
+        /** @var $controller Cli_Controller */
         $controller->run(Cli_Request::getInstance());
     }
 }

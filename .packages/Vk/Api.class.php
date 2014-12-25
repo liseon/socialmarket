@@ -41,7 +41,7 @@ class Vk_Api extends Patterns_Singleton
 
     const ERROR_WAIT_PROGRESS_KOEF = 2;
 
-    const EXECUTE_LIMIT = 16;
+    const EXECUTE_LIMIT = 18;
 
 
     /**

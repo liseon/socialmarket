@@ -6,27 +6,47 @@
  * Time: 19:15
  */
 
-class Cli_Controller_Vk_Find extends Cli_Controller_Abstract
+class Cli_Controller_Vk_Find extends Cli_Controller
 {
-    public function actionDefault(Request $request) {
+    private $keys = [
+        'прода' => 40,
+        'пробег' => 30,
+        'л.с' => 30,
+        'км' => 10,
+        'скучен' => 50,
+        'ксенон' => 70,
+        'акпп' => 60,
+        //'ат' => 10,
+        'механика' => 10,
+        'аварий' => 20,
+        'салон' => 20,
+    ];
+
+    const CAR_BREND_POINT = 60;
+
+
+    public function actionDefault(Cli_Request $request) {
         echo "Heyy \n";
-        $keys = ['продам', 'продаю', 'пробег'];
-        Vk_Api::getInstance()->setToken('832d159d010b4e5db27fa58becaaeff8f827d55d35584f2b814a1bf5e8d059ba7e183d6f73fb5efe73124');
-        $friends = Vk_Api::getInstance()->friendsGet(20992);
+        $criteria = new Posts_SearcherCriteria($this->keys, 30, 110);
+        $criteria->addGroup(ConfigHelper::getInfo('carBrands'), self::CAR_BREND_POINT);
+
+        //echo iconv('utf-8','cp866', Strings::normalize('❤❤❤ @ Живописная, 2 http://instagram.com/p/sU9m0eooyR/')) . "\n";
+        //die();
+
+        Vk_Api::getInstance()->setToken('eedb295301d168f73471f35ada8a9422044696bdf48721fee494a4d75690ece6470f3464644a691934390');
+        $friends = Vk_Api::getInstance()->friendsGet(22189);
         $result = new Vk_PostsCollection();
         $postsCount = 0;
         $block = [];
         do {
-            echo "Start friend: {$friends->getId()} \n";
             $block[] = $friends->getId();
             //$friends2 = Vk_Api::getInstance()->friendsGet($friends->getId(), $friends);
             //$count += $friends2->count();
             if (count($block) == Vk_Api::EXECUTE_LIMIT) {
                 $posts = Vk_Api::getInstance()->executeWallGet($block, 30);
                 $postsCount += $posts->count();
-                echo "------------> Have got:: {$posts->count()} posts\n";
                 $searcher = new Posts_Searcher($posts);
-                $result->joinCollection($searcher->findPosts($keys, 30, false));
+                $result->joinCollection($searcher->findPosts($criteria));
                 $block = [];
             }
         } while ($friends->getNext());
@@ -37,28 +57,7 @@ class Cli_Controller_Vk_Find extends Cli_Controller_Abstract
 
         do {
             echo iconv('utf-8','cp866', $result->getPostText()) . "\n";
-        } while ($result->getNext());
-    }
-
-    public function actionTest(Cli_Request $request) {
-        echo "Start! \n";
-        $keys = ['продам', 'продаю', 'пробег'];
-        Vk_Api::getInstance()->setToken('832d159d010b4e5db27fa58becaaeff8f827d55d35584f2b814a1bf5e8d059ba7e183d6f73fb5efe73124');
-        $friends = Vk_Api::getInstance()->friendsGet(20992);
-
-        for ($i = 0; $i <= 17; $i++) {
-            $fr[] = $friends->getId();
-            $friends->getNext();
-        }
-
-        $result = new Vk_PostsCollection();
-        $posts = Vk_Api::getInstance()->executeWallGet($fr, 30);
-        $searcher = new Posts_Searcher($posts);
-        $result->joinCollection($searcher->findPosts($keys, 30, false));
-        echo "Count (posts): " . $posts->count() . "\n";
-        echo "Count (result): " . $result->count() . "\n";
-        do {
-            echo iconv('utf-8','cp866', $result->getPostText()) . "\n";
+            echo "id: {$result->getPostId()}  owner_id: {$result->getOwnerId()} \n";
         } while ($result->getNext());
     }
 }

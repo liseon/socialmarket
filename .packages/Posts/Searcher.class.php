@@ -25,47 +25,27 @@ class Posts_Searcher
      * Или хотя бы одной строки, если $isHard == false
      * Перед поиском текст и ключи нормализуется!
      *
-     * @param array $keys
-     * @param int $period
-     * @param bool $isHard
+     * @param Posts_SearcherCriteria $criteria
      * @return Vk_PostsCollection $result
      *
      */
-    public function findPosts(array $keys, $period = 30, $isHard = false) {
+    public function findPosts(Posts_SearcherCriteria $criteria) {
         $result = new Vk_PostsCollection();
         $this->collection->reset();
-        $period = (int)$period * Constants::DAY;
+        $period = (int)$criteria->getDays() * Constants::DAY;
         $extremeTime = time() - $period;
-        //нормализуем ключи поиска
-        $keys = array_map(function ($val) {
-                return self::normalize($val);
-            }, $keys);
 
         do {
             if ($extremeTime < $this->collection->getPostTime()) {
                 //Цикл не прерываем, т.к. мы точно не можем быть уверены в верной сортировке по дате.
                 continue;
             }
-            $found = 0;
-            $text = self::normalize($this->collection->getPostText());
-            foreach ($keys as $key) {
-                if (!mb_strpos($text, $key) === false) {
-                    $found++;
-                }
+            if ($criteria->analizeText($this->collection->getPostText())) {
+                $result->add($this->collection->getCurrent());
             }
-            //Результат не найден, если вообще нет совпадений, либо если поиск жесткий и совпадений недостаточно.
-            if (!$found || ($isHard && count($found) < count($keys))) {
-                continue;
-            }
-
-            $result->add($this->collection->getCurrent());
         } while ($this->collection->getNext());
 
         return $result;
     }
 
-    private static function normalize($text) {
-
-        return str_replace([' ', ',', '.', '!', '?', '&', '_', '~'], '', mb_strtolower($text, 'UTF-8'));
-    }
 }
