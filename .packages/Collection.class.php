@@ -12,7 +12,7 @@ abstract class Collection
     /** @var array */
     protected $rows = [];
 
-    private $i;
+    private $i = 0;
 
     /**
      * @param array|false $rows
@@ -44,6 +44,9 @@ abstract class Collection
         return count($this->rows);
     }
 
+    /**
+     * @return array | bool
+     */
     public function getNext() {
         if (isset($this->rows[$this->i + 1])) {
             $this->i++;

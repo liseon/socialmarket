@@ -41,7 +41,7 @@ class Posts_Searcher
                 return self::normalize($val);
             }, $keys);
 
-        while ($this->collection->getNext()) {
+        do {
             if ($extremeTime < $this->collection->getPostTime()) {
                 //Цикл не прерываем, т.к. мы точно не можем быть уверены в верной сортировке по дате.
                 continue;
@@ -59,7 +59,7 @@ class Posts_Searcher
             }
 
             $result->add($this->collection->getCurrent());
-        }
+        } while ($this->collection->getNext());
 
         return $result;
     }

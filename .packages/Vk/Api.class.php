@@ -41,6 +41,8 @@ class Vk_Api extends Patterns_Singleton
 
     const ERROR_WAIT_PROGRESS_KOEF = 2;
 
+    const EXECUTE_LIMIT = 16;
+
 
     /**
      * @param string $token
@@ -121,6 +123,42 @@ class Vk_Api extends Patterns_Singleton
         );
     }
 
+    public function executeWallGet(array $ids, $limit) {
+        if (count($ids) > 25) {
+            return false;
+        }
+        $codeAr = [];
+        foreach ($ids as $id) {
+            $codeAr[] =
+                'API.wall.get({"owner_id":' . $id . ',"count":' . $limit . ',"filter":"all","access_token":"'
+                . $this->token . '"})';
+        }
+        $code = 'return [' . implode(",", $codeAr) . '];';
+
+        $requestRes =  $this->requestApi(
+            'execute',
+            [
+                'code' => $code,
+                'access_token' => $this->token,
+            ]
+        );
+        $result = [];
+        //Соедимним результаты в единый массив
+        foreach($requestRes as $wall) {
+            if (!is_array($wall)) {
+                echo "-----------------------------------> ERROR! \n";
+                var_dump($wall);
+                echo "\n\n";
+                continue;
+            }
+            $result = array_merge($result, $wall);
+        }
+
+        return new Vk_PostsCollection(
+            $result
+        );
+    }
+
     private function requestApi($method, $params){
         $url = self::URL_API . $method . "?" . http_build_query($params);
         $repeat = false;
@@ -143,6 +181,9 @@ class Vk_Api extends Patterns_Singleton
                 $koef *= self::ERROR_WAIT_PROGRESS_KOEF;
             }
         } while ($repeat);
+        if (isset($json['error']['error_code']) && isset($json['error']['error_msg'])) {
+            echo $json['error']['error_msg'] . "\n";
+        }
 
         return isset($json['response']) ? $json['response'] : false;
     }
