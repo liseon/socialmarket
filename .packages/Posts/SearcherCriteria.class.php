@@ -106,7 +106,7 @@ class Posts_SearcherCriteria
             }
         }
 
-        if ($result >= $this->level) {
+        if (false && $result >= $this->level) {
             echo iconv('utf-8','cp866', $text) . "\n";
             echo "KEYS:: \n";
             foreach ($match as $m) {

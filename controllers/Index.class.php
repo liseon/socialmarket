@@ -9,29 +9,9 @@
 class Controller_Index extends Front_Controller
 {
     public function actionDefault() {
-        return $this->formModels();
+        //return $this->formModels();
 
         return $this->formAuth();
-
-        $keys = ['продам', 'продаю', 'пробег'];
-        Vk_Api::getInstance()->setToken('01fb1b10b3e28928b8ae48d781290f2b09ebdc50dc0f41a25cda0dc64e731b278e59a198ed4597fdb2601');
-        $friends = Vk_Api::getInstance()->friendsGet(4916443);
-        $result = new Vk_PostsCollection();
-        $count = $friends->count();
-        $i = 0;
-        while ($friends->getNext()) {
-            $friends2 = Vk_Api::getInstance()->friendsGet($friends->getId(), $friends);
-            $count += $friends2->count();
-            $i++;
-           // $searcher = new Posts_Searcher(Vk_Api::getInstance()->wallGet($friends->getId(), 30));
-           // $result->joinCollection($searcher->findPosts($keys, 30, false));
-        }
-
-        echo "<br>***************<br>Result:: {$count}<br>";
-
-       /* while ($result->getNext()) {
-            echo $result->getPostText() . "\r\n";
-        }*/
 
     }
 

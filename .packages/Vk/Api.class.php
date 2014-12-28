@@ -34,14 +34,14 @@ class Vk_Api extends Patterns_Singleton
 
     const PARAM_CODE = 'code';
 
-    const REQUESTS_LIMIT = 3;
+    const REQUESTS_LIMIT = 2.7;
 
     /** сколько ждать при ошибки по лимиту запросов */
-    const ERROR_WAIT_MS = 1000000;
+    const ERROR_WAIT_MS = 2000000;
 
-    const ERROR_WAIT_PROGRESS_KOEF = 2;
+    const ERROR_WAIT_PROGRESS_KOEF = 4;
 
-    const EXECUTE_LIMIT = 18;
+    const EXECUTE_LIMIT = 25;
 
 
     /**
@@ -124,14 +124,14 @@ class Vk_Api extends Patterns_Singleton
     }
 
     public function executeWallGet(array $ids, $limit) {
-        if (count($ids) > 25) {
+        if (count($ids) > self::EXECUTE_LIMIT) {
             return false;
         }
         $codeAr = [];
         foreach ($ids as $id) {
             $codeAr[] =
-                'API.wall.get({"owner_id":' . $id . ',"count":' . $limit . ',"filter":"all","access_token":"'
-                . $this->token . '"})';
+                'API.wall.get({"owner_id":' . $id . ',"count":' . $limit . ',"filter":"all"})';
+            //,"access_token":"'. $this->token . '"
         }
         $code = 'return [' . implode(",", $codeAr) . '];';
 
@@ -143,14 +143,18 @@ class Vk_Api extends Patterns_Singleton
             ]
         );
         $result = [];
+        $i = -1;
         //Соедимним результаты в единый массив
         foreach($requestRes as $wall) {
+            $i++;
             if (!is_array($wall)) {
-                echo "-----------------------------------> ERROR! \n";
-                var_dump($wall);
-                echo "\n\n";
+                //echo "-----------------------------------> ERROR! {$ids[$i]} \n";
+                //var_dump($wall);
+                //echo "\n\n";
+                //die();
                 continue;
             }
+//            echo "Success --- {$wall[1]['to_id']} \n";
             $result = array_merge($result, $wall);
         }
 
